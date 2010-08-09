@@ -30,7 +30,14 @@ var SCREEN_WIDTH = window.innerWidth,
     shiftKeyIsDown = false,
     altKeyIsDown = false;
 
-init();
+$(document).ready(function(){
+  init();
+  $.get("image.png", function(resp){
+    var img = new Image();
+    $(img).load(function(){context.drawImage(img,0,0)});
+    img.src = resp;
+  });
+});
 
 function init()
 {
@@ -380,7 +387,8 @@ function onMenuSave()
 {
 	// window.open(canvas.toDataURL('image/png'),'mywindow');
 	flatten();
-	window.open(flattenCanvas.toDataURL('image/png'),'mywindow');
+	//window.open(flattenCanvas.toDataURL('image/png'),'mywindow');
+  $.post("image.php",{"image":flattenCanvas.toDataURL("image/png")},function(resp){console.log(resp)});
 }
 
 function onMenuClear()
